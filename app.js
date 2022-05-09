@@ -34,7 +34,7 @@ const courses = require('./public/data/courses20-21.json')
 
 const mongoose = require( 'mongoose' );
 //const mongodb_URI = 'mongodb://localhost:27017/cs103a_todo'
-const mongodb_URI = 'mongodb+srv://cs_sj:BrandeisSpr22@cluster0.kgugl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+const mongodb_URI = 'mongodb+srv://zaziebot:balls@cluster0.j6tkd.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 //mongodb+srv://cs103a:<password>@cluster0.kgugl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
 
 mongoose.connect( mongodb_URI, { useNewUrlParser: true, useUnifiedTopology: true } );
@@ -56,6 +56,19 @@ db.once('open', function() {console.log("we are connected!!!")});
 // a server that respond to requests by sending responses
 // *********************************************************** //
 const app = express();
+
+var Schema = mongoose.Schema;
+
+//Age Schema
+
+var bCard= new Schema({
+  age: Number,
+  greeting: String,
+  sName: String,
+  rName: String,
+})
+//Initialize bCard model
+var bCardSaver = mongoose.model('bCardSaver', bCard);
 
 // Here we specify that we will be using EJS as our view engine
 app.set("views", path.join(__dirname, "views"));
@@ -113,7 +126,20 @@ app.get("/", (req, res, next) => {
 app.get("/about", (req, res, next) => {
   res.render("about");
 });
-
+app.post("/letter", (req, res, next) => {
+  const greeting = req.body.greeting;
+  const age = req.body.age;
+  const sName = req.body.sender_name;
+  const rName = req.body.recipiant_name;
+  const savedBirthdayCard = new bCardSaver({
+    greeting: greeting, 
+    age: age,
+    sName: sName,
+    rName: rName,
+  });
+  savedBirthdayCard.save();
+  res.render("letter", {greeting: greeting, age: age, sName: sName, rName: rName});
+});
 
 
 /*
@@ -380,6 +406,7 @@ app.set("port", port);
 
 // and now we startup the server listening on that port
 const http = require("http");
+const internal = require("stream");
 const server = http.createServer(app);
 
 server.listen(port);
