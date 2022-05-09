@@ -4,15 +4,15 @@
   </h1>
   <body>
 
-    <% for(var i = 0; i < variableX.length; i++){ %>
+    <% for(var i = 0; i < variableName.length; i++){ %>
+        <p>
+            <%= JSON.stringify(variableName.greeting)%>
+           </p>
+          
        <p><%= JSON.Stringify(variableX[i]) %></p> 
         <% } %>
-      <p>
-          <%= variableName%>
-         </p>
-    <p> <%= variableStringified%>
+      
     
-    </p>
 
        
   </body>

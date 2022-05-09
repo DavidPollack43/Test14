@@ -134,6 +134,7 @@ app.post("/cardQuery", (req, res, next) => {
   var variableX = "";
   bCardSaver.find({"rName":inputRName}, function(err,recipiantName){
     const x = recipiantName.map(function(recipiantName){
+      console.log(recipiantName);
       return(recipiantName.rName)
     });
     const returnName = recipiantName;
@@ -150,6 +151,7 @@ app.post("/cardQuery", (req, res, next) => {
     console.log(variableX[0]);
     console.log(JSON.stringify(variableX));
     const variableStringified = JSON.stringify(variableX);
+    const show = app.locals.variableStringified;
     console.log("variableName");
 
     console.log(variableName);
@@ -158,7 +160,6 @@ app.post("/cardQuery", (req, res, next) => {
   res.render("cardQuery", {
     variableX: variableX,
     variableName: variableName,
-    variableStringified:variableStringified
   })
 });
 
