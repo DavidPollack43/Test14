@@ -126,6 +126,42 @@ app.get("/", (req, res, next) => {
 app.get("/about", (req, res, next) => {
   res.render("about");
 });
+
+app.post("/cardQuery", (req, res, next) => {
+  const inputRName= req.body.queryRName;
+  console.log(inputRName);
+  var variableName = "";
+  var variableX = "";
+  bCardSaver.find({"rName":inputRName}, function(err,recipiantName){
+    const x = recipiantName.map(function(recipiantName){
+      return(recipiantName.rName)
+    });
+    const returnName = recipiantName;
+    console.log(returnName);
+    console.log("recipiantName.rName");
+    console.log(recipiantName.rName);
+
+    variableName = recipiantName;
+    variableX = x;
+    console.log("returnName");
+    console.log(returnName);
+    console.log("variableX");
+    console.log(variableX);
+    console.log(variableX[0]);
+    console.log(JSON.stringify(variableX));
+    const variableStringified = JSON.stringify(variableX);
+    console.log("variableName");
+
+    console.log(variableName);
+    return returnName;
+  })
+  res.render("cardQuery", {
+    variableX: variableX,
+    variableName: variableName,
+    variableStringified:variableStringified
+  })
+});
+
 app.post("/letter", (req, res, next) => {
   const greeting = req.body.greeting;
   const age = req.body.age;
